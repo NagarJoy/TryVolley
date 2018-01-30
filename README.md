@@ -1,7 +1,7 @@
 # TryVolley
 Volley Demonstration
 
-# Add library
+# Add library into build.gradle
 
 * dependencies{
 //adding volley library
