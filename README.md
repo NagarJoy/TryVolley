@@ -1,5 +1,5 @@
 # TryVolley
-Volley Demonstration
+Volley Example
 
 # Add library into build.gradle
 
