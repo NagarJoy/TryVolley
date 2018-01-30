@@ -1,0 +1,65 @@
+public class MainActivity extends AppCompatActivity
+{
+   ProgressDialog dialog;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        dialog = new ProgressDialog(RewardsPointsActivity.this);
+        dialog.setMessage("Please Wait...");
+        dialog.setCancelable(false);
+            
+        getDataFromBody();
+    }
+    
+    private void getDataFromBody()
+    {
+        dialog.show();
+     
+        String url = "your web sevice api's";
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.accumulate("Type", "asc");
+            jsonObject.accumulate("numofrecords", "10");
+            jsonObject.accumulate("pageno", "1");
+            jsonObject.accumulate("userid", "2");
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        dialog.dismiss();
+                        
+                        Log.e("11", response.toString());
+                        String result = response.toString();
+
+                        Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        dialog.dismiss();
+                    
+                        Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+
+        // Adding request to request queue
+        AppController.getInstance(this).addToRequestQueue(jsonObjReq);
+    }
+}
